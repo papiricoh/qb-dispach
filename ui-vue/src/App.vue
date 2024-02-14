@@ -8,7 +8,18 @@ export default {
     return {
       dispatch_list: [],
       index: -1,
+      exampleAlert: {
+        
+      }
     }
+  },
+  methods: {
+    addAlert() {
+
+    }
+  },
+  computed: {
+
   }
 }
 </script>
