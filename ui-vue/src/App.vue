@@ -1,21 +1,64 @@
 <script setup>
-
+import AlertViewer from './components/AlertViewer.vue';
 </script>
 
 <script>
 export default {
-  setup () {
+  data() {
     return {
+      isVisible: true,
+      isRight: true,
+      isFoward: true,
       dispatch_list: [],
       index: -1,
-      exampleAlert: {
-        
-      }
+      exampleAlerts: [
+        {
+          //Robo coche
+          id: 1,
+          title: "Robo de vehiculo",
+          desc: "robo de vehiculo",
+          location: "Del Perro, Downtown",
+          date: 372194720,
+          type: "carjacking",
+          make: "Porsche",
+          model: "Cayene",
+          color: "fdaa24",
+          plate: "72842DWK"
+
+        }
+      ]
     }
   },
   methods: {
-    addAlert() {
+    addAlert(alert) {
+      this.dispatch_list.push({
+        id: this.dispatch_list.length,
+        title: "Robo de vehiculo",
+        desc: "robo de vehiculo",
+        location: "Del Perro, Downtown",
+        date: new Date(),
+        type: "carjacking",
+        make: "Porsche",
+        model: "Cayene",
+        color: "fdaa24",
+        plate: "72842DWK"
 
+      })
+
+      this.index = this.dispatch_list.length - 1
+
+    },
+    foward() {
+      if (this.index + 1 < this.dispatch_list.length) {
+        this.isFoward = true;
+        this.index = this.index + 1;
+      }
+    },
+    backwards() {
+      if (this.index - 1 >= 0) {
+        this.isFoward = false;
+        this.index = this.index - 1;
+      }
     }
   },
   computed: {
@@ -25,20 +68,32 @@ export default {
 </script>
 
 <template>
-  <main>
-    <div class="header">
-      <i class="ph-fill ph-warning"></i>
-      <div class="header_list">
-        <div>EMERGENCIAS</div>
-        <div><i class="ph-bold ph-cell-signal-high"></i>Conectado</div>
+  <Transition mode="out-in" :enter-active-class="isRight ? 'slide-fade-enter-active' : 'no-slide-fade-enter-active'"
+  :leave-active-class="isRight ? 'no-slide-fade-leave-active' : 'slide-fade-leave-active'"
+  :enter-class="isRight ? 'slide-fade-enter' : 'no-slide-fade-enter'"
+  :leave-to-class="isRight ? 'no-slide-fade-leave-to' : 'slide-fade-leave-to' ">
+    <main v-if="isVisible">
+      <div class="header">
+        <i @click="addAlert(null)" class="ph-fill ph-warning"></i>
+        <div class="header_list">
+          <div>EMERGENCIAS</div>
+          <div><i class="ph-bold ph-cell-signal-high"></i>Conectado</div>
+        </div>
       </div>
-    </div>
-    <div class="footer_selector">
-      <div><i class="ph-bold ph-arrow-left"></i></div>
-      <div>{{index + 1}}/{{dispatch_list.length}}</div>
-      <div><i class="ph-bold ph-arrow-right"></i></div>
-    </div>
-  </main>
+      <Transition mode="out-in" :enter-active-class="isFoward ? 'slide-fade-enter-active' : 'no-slide-fade-enter-active'"
+      :leave-active-class="isFoward ? 'slide-fade-leave-active' : 'no-slide-fade-leave-active'"
+      :enter-class="isFoward ? 'slide-fade-enter' : 'no-slide-fade-enter'"
+      :leave-to-class="isFoward ? 'slide-fade-leave-to' : 'no-slide-fade-leave-to'">
+        <AlertViewer v-if="dispatch_list.length > 0" :key="index" :alert="dispatch_list[index]"></AlertViewer>
+        <div v-else class="no_alert">SIN ALERTAS</div>
+      </Transition>
+      <div class="footer_selector">
+        <div @click="backwards()"><i class="ph-bold ph-arrow-left"></i></div>
+        <div>{{index + 1}}/{{dispatch_list.length}}</div>
+        <div @click="foward()"><i class="ph-bold ph-arrow-right"></i></div>
+      </div>
+    </main>
+  </Transition>
 </template>
 
 <style scoped>
@@ -72,5 +127,11 @@ export default {
 .header_list>div:last-child {
   display: flex;
   align-items: center;
+}
+.no_alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: .8rem;
 }
 </style>
