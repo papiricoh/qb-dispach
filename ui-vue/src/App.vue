@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       isVisible: true,
+      onDuty: false,
       isRight: true,
       isFoward: true,
       dispatch_list: [],
@@ -30,20 +31,43 @@ export default {
     }
   },
   methods: {
+    handleNuiMessage(event) {
+      console.log(event);
+      if (event.data.action === "toggleUI") {
+        this.onDuty = event.data.sendData.onDuty;
+      }
+      if (event.data.action === "pauseMenu") {
+        this.isVisible = event.data.value;
+      }
+      if (event.data.action === "addAlert") {
+        this.addAlert(event.data.value);
+      }
+    },
     addAlert(alert) {
-      this.dispatch_list.push({
-        id: this.dispatch_list.length,
-        title: "Robo de vehiculo",
-        desc: "robo de vehiculo",
-        location: "Del Perro, Downtown",
-        date: new Date(),
-        type: "carjacking",
-        make: "Porsche",
-        model: "Cayene",
-        color: "fdaa24",
-        plate: "72842DWK"
-
-      })
+      if(alert.type == "car") {
+        this.dispatch_list.push({
+          id: this.dispatch_list.length,
+          title: alert.title,
+          desc: alert.desc,
+          location: alert.location,
+          date: new Date(),
+          type: alert.type,
+          make: alert.make,
+          model: alert.model,
+          color: alert.color,
+          plate: alert.plate
+        })
+      }else {
+        this.dispatch_list.push({
+          id: this.dispatch_list.length,
+          title: alert.title,
+          desc: alert.desc,
+          location: alert.location,
+          date: new Date(),
+          type: alert.type,
+        })
+      }
+      
 
       this.index = this.dispatch_list.length - 1
 
@@ -61,9 +85,13 @@ export default {
       }
     }
   },
-  computed: {
+  mounted() {
+    window.addEventListener('message', this.handleNuiMessage);
+  },
 
-  }
+  unmounted() {
+    window.removeEventListener('message', this.handleNuiMessage);
+  },
 }
 </script>
 
@@ -72,7 +100,7 @@ export default {
   :leave-active-class="isRight ? 'no-slide-fade-leave-active' : 'slide-fade-leave-active'"
   :enter-class="isRight ? 'slide-fade-enter' : 'no-slide-fade-enter'"
   :leave-to-class="isRight ? 'no-slide-fade-leave-to' : 'slide-fade-leave-to' ">
-    <main v-if="isVisible">
+    <main v-if="isVisible && onDuty">
       <div class="header">
         <i @click="addAlert(null)" class="ph-fill ph-warning"></i>
         <div class="header_list">
