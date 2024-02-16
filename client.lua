@@ -45,7 +45,12 @@ end)
 
 RegisterNetEvent('qb-dispatch:client:addAlert')
 AddEventHandler('qb-dispatch:client:addAlert', function(data)
-    
+	if data.location == nil then
+		local streetHash, crossingHash = GetStreetNameAtCoord(data.coords.x, data.coords.y, data.coords.z)
+
+		local streetName = GetStreetNameFromHashKey(streetHash)
+		data.location = streetName
+	end
     SendNUIMessage({
         action = "addAlert",
         value = data

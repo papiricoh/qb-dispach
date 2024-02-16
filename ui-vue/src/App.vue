@@ -55,7 +55,8 @@ export default {
           make: alert.make,
           model: alert.model,
           color: alert.color,
-          plate: alert.plate
+          plate: alert.plate,
+          coords: alert.coords
         })
       }else {
         this.dispatch_list.push({
@@ -65,6 +66,7 @@ export default {
           location: alert.location,
           date: new Date(),
           type: alert.type,
+          coords: alert.coords
         })
       }
       
