@@ -27,8 +27,7 @@ body {
   flex-direction: column;
 }
 main {
-  
-  width: 20rem;
+  width: 18rem;
   background-color: var(--color1);
   color: white;
   display: flex;

@@ -56,3 +56,20 @@ AddEventHandler('qb-dispatch:client:addAlert', function(data)
         value = data
     })
 end)
+
+
+RegisterCommand('leftButton', function()
+    SendNUIMessage({
+        action = "leftButton",
+        sendData = nil
+    })
+end, false)
+RegisterKeyMapping('leftButton', 'Dispatch Left', 'keyboard', 'LEFT')
+
+RegisterCommand('rightButton', function()
+    SendNUIMessage({
+        action = "rightButton",
+        sendData = nil
+    })
+end, false)
+RegisterKeyMapping('rightButton', 'Dispatch Right', 'keyboard', 'RIGHT')

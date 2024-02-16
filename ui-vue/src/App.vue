@@ -42,6 +42,12 @@ export default {
       if (event.data.action === "addAlert") {
         this.addAlert(event.data.value);
       }
+      if (event.data.action === "leftButton") {
+        this.backwards();
+      }
+      if (event.data.action === "rightButton") {
+        this.foward();
+      }
     },
     addAlert(alert) {
       if(alert.type == "car") {

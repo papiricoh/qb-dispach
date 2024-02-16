@@ -76,7 +76,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: smaller;
+  font-size: small;
   margin-top: .8rem;
   color: var(--textHigh);
 }
